@@ -44,6 +44,11 @@ def main() -> int:
         "output": _stats(left["output"], right["output"]),
         "input_grad": _stats(left["input_grad"], right["input_grad"]),
     }
+    optional_tensors = ("indexer_loss", "topk_global_ids", "topk_scores")
+    result["optional_keys_match"] = all((name in left) == (name in right) for name in optional_tensors)
+    for name in optional_tensors:
+        if name in left and name in right:
+            result[name] = _stats(left[name], right[name])
     left_grads = left["parameter_grads"]
     right_grads = right["parameter_grads"]
     result["parameter_keys_match"] = set(left_grads) == set(right_grads)
@@ -54,10 +59,12 @@ def main() -> int:
     tensors = [
         (left["output"], right["output"]),
         (left["input_grad"], right["input_grad"]),
+        *((left[name], right[name]) for name in optional_tensors if name in left and name in right),
         *((left_grads[name], right_grads[name]) for name in sorted(set(left_grads) & set(right_grads))),
     ]
     result["allclose"] = bool(
         result["parameter_keys_match"]
+        and result["optional_keys_match"]
         and all(torch.allclose(lhs.float(), rhs.float(), atol=args.atol, rtol=args.rtol) for lhs, rhs in tensors)
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)

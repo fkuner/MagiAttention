@@ -236,6 +236,8 @@ class MegatronNativeAdapter(BaseBenchmarkAdapter):
             if dsa_enabled
             else None
         )
+        if dsa_spec is not None:
+            dsa_spec = self.customize_dsa_spec(dsa_spec, case)
 
         layers = []
         layer_number = 1
@@ -302,6 +304,10 @@ class MegatronNativeAdapter(BaseBenchmarkAdapter):
     def customize_dense_submodules(self, dense_submodules, case):
         """Backend hook preserving the exact Megatron MLA module construction."""
         return dense_submodules
+
+    def customize_dsa_spec(self, dsa_spec, case):
+        """Backend hook preserving the exact Megatron absorbed-MLA/DSA spec."""
+        return dsa_spec
 
     @staticmethod
     def clone_shared_state(modules) -> dict[str, Any]:
@@ -552,11 +558,26 @@ class MegatronNativeAdapter(BaseBenchmarkAdapter):
         """Capture layout-invariant correctness artifacts outside the timed path."""
         import torch.distributed as dist
 
+        indexer_loss_helper = None
+        if case.attention_mode == "mla_dsa":
+            from megatron.core.transformer.experimental_attention_variant.dsa import (
+                DSAIndexerLossLoggingHelper,
+            )
+
+            indexer_loss_helper = DSAIndexerLossLoggingHelper
+            indexer_loss_helper.clean_loss_in_tracker()
+
         self.zero_grad(modules, case)
         self._capture_input_gradient = True
         self._last_input_hidden = None
         try:
             output = self.forward(modules, prepared_batch, case)
+            indexer_loss_values = None
+            if indexer_loss_helper is not None:
+                values = indexer_loss_helper.tracker.get("values")
+                if values is None:
+                    raise RuntimeError("DSA golden capture produced no indexer loss")
+                indexer_loss_values = values.detach().clone()
             loss = self.compute_loss(output, prepared_batch, case)
             global_loss = loss.detach().clone()
             if case.parallel.cp > 1:
@@ -580,7 +601,7 @@ class MegatronNativeAdapter(BaseBenchmarkAdapter):
                 name: self._tensor_sha256(tensor)
                 for name, tensor in modules.state_dict().items()
             }
-            return {
+            result = {
                 "loss": float(global_loss.item()),
                 "output_sha256": self._tensor_sha256(canonical_output),
                 "input_grad_sha256": self._tensor_sha256(canonical_input_grad),
@@ -597,7 +618,13 @@ class MegatronNativeAdapter(BaseBenchmarkAdapter):
                     },
                 },
             }
+            if indexer_loss_values is not None:
+                result["indexer_loss"] = indexer_loss_values.detach().cpu().tolist()
+                result["_tensors"]["indexer_loss"] = indexer_loss_values.detach().cpu()
+            return result
         finally:
+            if indexer_loss_helper is not None:
+                indexer_loss_helper.clean_loss_in_tracker()
             self._capture_input_gradient = False
             self._last_input_hidden = None
             self.zero_grad(modules, case)

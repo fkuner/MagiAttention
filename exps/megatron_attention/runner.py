@@ -270,10 +270,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise SystemExit("--adapter is required for execution")
     if args.output is None:
         raise SystemExit("--output is required for execution")
-    from .adapters.magi import MagiExpandedMLAAdapter
+    from .adapters.magi import MagiDSAReferenceAdapter, MagiExpandedMLAAdapter
     from .adapters.native import MegatronNativeAdapter
 
-    adapter = MegatronNativeAdapter() if args.adapter == "native" else MagiExpandedMLAAdapter()
+    if args.adapter == "native":
+        adapter = MegatronNativeAdapter()
+    elif case.attention_mode == "mla_dsa":
+        adapter = MagiDSAReferenceAdapter()
+    else:
+        adapter = MagiExpandedMLAAdapter()
 
     runner = BenchmarkRunner(
         case,

@@ -104,3 +104,45 @@ class MagiExpandedMLAAdapter(MegatronNativeAdapter):
             }
         )
         return metadata
+
+
+class MagiDSAReferenceAdapter(MegatronNativeAdapter):
+    """Magi integration skeleton delegating exact DSA semantics to Megatron."""
+
+    @property
+    def name(self) -> str:
+        return "magi_dsa_megatron_reference"
+
+    def build(self, case, process_groups, shared_state):
+        if case.attention_mode != "mla_dsa":
+            raise NotImplementedError("the conservative DSA adapter requires mla_dsa")
+        if case.architecture != "attention":
+            raise NotImplementedError("the first DSA integration gate is attention-only")
+        return super().build(case, process_groups, shared_state)
+
+    def customize_dsa_spec(self, dsa_spec, case):
+        from magi_attention.integrations.megatron.dsa import ConservativeMagiDSAttention
+
+        dsa_submodules = dsa_spec.submodules
+        core_spec = dsa_submodules.core_attention
+        return replace(
+            dsa_spec,
+            submodules=replace(
+                dsa_submodules,
+                core_attention=replace(core_spec, module=ConservativeMagiDSAttention),
+            ),
+        )
+
+    def correctness_metadata(self, canonical, modules, prepared_batch, case):
+        metadata = super().correctness_metadata(canonical, modules, prepared_batch, case)
+        executions = [layer.core_attention.last_execution for layer in modules.layers]
+        metadata.update(
+            {
+                "scope": "T09 Magi DSA seam over Megatron exact AllGather reference",
+                "communication_takeover": False,
+                "dsa_executions": executions,
+                "layout_policy": "native_megatron_allgather_reference",
+                "topk_implementation": "megatron_exact_reference",
+            }
+        )
+        return metadata

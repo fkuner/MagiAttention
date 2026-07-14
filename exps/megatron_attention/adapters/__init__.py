@@ -2,7 +2,12 @@
 
 from .base import BaseBenchmarkAdapter
 
-__all__ = ["BaseBenchmarkAdapter", "MagiExpandedMLAAdapter", "MegatronNativeAdapter"]
+__all__ = [
+    "BaseBenchmarkAdapter",
+    "MagiDSAReferenceAdapter",
+    "MagiExpandedMLAAdapter",
+    "MegatronNativeAdapter",
+]
 
 
 def __getattr__(name: str):
@@ -14,4 +19,8 @@ def __getattr__(name: str):
         from .magi import MagiExpandedMLAAdapter
 
         return MagiExpandedMLAAdapter
+    if name == "MagiDSAReferenceAdapter":
+        from .magi import MagiDSAReferenceAdapter
+
+        return MagiDSAReferenceAdapter
     raise AttributeError(name)
