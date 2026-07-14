@@ -4,9 +4,10 @@
 set -uo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-CONFIG="${1:?usage: run_case.sh CONFIG NPROC OUTPUT}"
-NPROC="${2:?usage: run_case.sh CONFIG NPROC OUTPUT}"
-OUTPUT="${3:?usage: run_case.sh CONFIG NPROC OUTPUT}"
+CONFIG="${1:?usage: run_case.sh CONFIG NPROC OUTPUT [ADAPTER]}"
+NPROC="${2:?usage: run_case.sh CONFIG NPROC OUTPUT [ADAPTER]}"
+OUTPUT="${3:?usage: run_case.sh CONFIG NPROC OUTPUT [ADAPTER]}"
+ADAPTER="${4:-native}"
 LOG="${OUTPUT%.json}.log"
 STATUS="${OUTPUT%.json}.status"
 
@@ -19,7 +20,7 @@ scripts/megatron_attention/run_in_env.sh \
   --nproc-per-node="${NPROC}" \
   -m exps.megatron_attention.runner \
   --config "${CONFIG}" \
-  --adapter native \
+  --adapter "${ADAPTER}" \
   --output "${OUTPUT}" \
   >"${LOG}" 2>&1
 rc=$?

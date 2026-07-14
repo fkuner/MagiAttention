@@ -26,6 +26,57 @@ class ExpandedMLARuntime:
     cp_group: object
 
 
+def _select_native_shard_gradient(
+    grad_global: torch.Tensor, local_to_global: torch.Tensor
+) -> torch.Tensor:
+    """Return this native CP rank's shard from a physical-order gradient."""
+
+    return grad_global.index_select(0, local_to_global)
+
+
+def _undispatch_native_partial_output(
+    magi_output: torch.Tensor, runtime_key: object
+) -> torch.Tensor:
+    """Restore global output while reducing native-rank partial gradients."""
+
+    from magi_attention.api import undispatch
+
+    return undispatch(magi_output, runtime_key, is_partial_grad=True)
+
+
+class _NativeShardToReplicatedGlobal(torch.autograd.Function):
+    """Gather native CP shards while avoiding a second backward reduction.
+
+    Magi ``dispatch`` already gathers every rank's local gradient into a full
+    physical-order gradient.  Using PyTorch's autograd AllGather here would
+    reduce-scatter that already-global gradient and multiply it by CP size.
+    The correct adjoint for this bridge is therefore a local index-select.
+    """
+
+    @staticmethod
+    def forward(ctx, local, local_to_global, group):
+        world_size = dist.get_world_size(group)
+        ctx.save_for_backward(local_to_global)
+        if world_size == 1:
+            return local.index_select(0, torch.argsort(local_to_global))
+
+        gathered = [torch.empty_like(local) for _ in range(world_size)]
+        gathered_ids = [torch.empty_like(local_to_global) for _ in range(world_size)]
+        dist.all_gather(gathered, local.contiguous(), group=group)
+        dist.all_gather(gathered_ids, local_to_global.contiguous(), group=group)
+        global_tensor = torch.cat(gathered, dim=0)
+        global_ids = torch.cat(gathered_ids, dim=0)
+        expected = torch.arange(global_ids.numel(), device=global_ids.device)
+        if not torch.equal(torch.sort(global_ids).values, expected):
+            raise RuntimeError("native CP mapping does not cover global physical token order")
+        return global_tensor.index_select(0, torch.argsort(global_ids))
+
+    @staticmethod
+    def backward(ctx, grad_global):
+        (local_to_global,) = ctx.saved_tensors
+        return _select_native_shard_gradient(grad_global, local_to_global), None, None
+
+
 class MagiExpandedMLACoreAttention(nn.Module):
     """Parameter-free Magi backend for Megatron's expanded MLA Q/K/V."""
 
@@ -96,8 +147,8 @@ class MagiExpandedMLACoreAttention(nn.Module):
             return local.index_select(0, torch.argsort(local_to_global))
 
         # The correctness-first adapter currently requires even native CP
-        # shards.  torch.distributed.nn.functional.all_gather keeps autograd
-        # connected so projection gradients remain comparable to Megatron.
+        # shards.  The custom bridge keeps autograd connected without reducing
+        # a gradient that Magi dispatch backward has already made global.
         sizes = [torch.empty(1, dtype=torch.int64, device=local.device) for _ in range(world_size)]
         local_size = torch.tensor([local.shape[0]], dtype=torch.int64, device=local.device)
         dist.all_gather(sizes, local_size, group=self.cp_group)
@@ -105,17 +156,9 @@ class MagiExpandedMLACoreAttention(nn.Module):
         if len(set(lengths)) != 1:
             raise NotImplementedError("uneven native CP shards are not supported by T08")
 
-        from torch.distributed.nn.functional import all_gather as autograd_all_gather
-
-        gathered = autograd_all_gather(local, group=self.cp_group)
-        gathered_ids = [torch.empty_like(local_to_global) for _ in range(world_size)]
-        dist.all_gather(gathered_ids, local_to_global, group=self.cp_group)
-        global_tensor = torch.cat(tuple(gathered), dim=0)
-        global_ids = torch.cat(gathered_ids, dim=0)
-        expected = torch.arange(global_ids.numel(), device=global_ids.device)
-        if not torch.equal(torch.sort(global_ids).values, expected):
-            raise RuntimeError("native CP mapping does not cover global physical token order")
-        return global_tensor.index_select(0, torch.argsort(global_ids))
+        return _NativeShardToReplicatedGlobal.apply(
+            local, local_to_global, self.cp_group
+        )
 
     def forward(
         self,
@@ -133,7 +176,7 @@ class MagiExpandedMLACoreAttention(nn.Module):
         if value is None:
             raise NotImplementedError("the first Magi MLA adapter is training-only expanded MLA")
 
-        from magi_attention.api import calc_attn, dispatch, undispatch
+        from magi_attention.api import calc_attn, dispatch
 
         local_q, was_sbhd = self._to_thd(query)
         local_k, key_was_sbhd = self._to_thd(key)
@@ -163,7 +206,12 @@ class MagiExpandedMLACoreAttention(nn.Module):
             self._runtime.key,
             softmax_scale=self.softmax_scale,
         )
-        global_output = undispatch(magi_output, self._runtime.key)
+        # Every native CP rank consumes only its own token subset below, so
+        # each rank contributes only a partial gradient for ``global_output``.
+        # Route and sum those contributions back to the Magi output owners.
+        global_output = _undispatch_native_partial_output(
+            magi_output, self._runtime.key
+        )
         native_output = global_output.index_select(0, mapping)
         self.last_execution = {
             "communication_takeover": True,
@@ -171,6 +219,7 @@ class MagiExpandedMLACoreAttention(nn.Module):
             "k_shape": tuple(magi_k.shape),
             "v_shape": tuple(magi_v.shape),
             "output_shape": tuple(magi_output.shape),
+            "undispatch_partial_grad": True,
         }
         if was_sbhd:
             return native_output.unsqueeze(1).flatten(start_dim=2)

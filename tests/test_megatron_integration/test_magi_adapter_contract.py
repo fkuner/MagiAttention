@@ -11,6 +11,8 @@ from exps.megatron_attention.adapters.magi import (
 )
 from magi_attention.integrations.megatron.expanded_mla import (
     MagiExpandedMLACoreAttention,
+    _select_native_shard_gradient,
+    _undispatch_native_partial_output,
 )
 
 
@@ -64,6 +66,27 @@ def test_to_thd_accepts_sbhd_and_thd() -> None:
 def test_to_thd_rejects_multi_batch_sbhd() -> None:
     with pytest.raises(ValueError, match="batch size one"):
         MagiExpandedMLACoreAttention._to_thd(torch.zeros(8, 2, 4, 192))
+
+
+def test_native_cp_bridge_backward_selects_without_reducing() -> None:
+    global_gradient = torch.arange(24).reshape(6, 4)
+    local_to_global = torch.tensor([1, 4, 5])
+    selected = _select_native_shard_gradient(global_gradient, local_to_global)
+    assert torch.equal(selected, global_gradient[local_to_global])
+
+
+def test_native_layout_undispatch_reduces_partial_gradients(monkeypatch) -> None:
+    calls = []
+
+    def fake_undispatch(output, key, *, is_partial_grad=False):
+        calls.append((output, key, is_partial_grad))
+        return output
+
+    monkeypatch.setattr("magi_attention.api.undispatch", fake_undispatch)
+    output = torch.ones(2, 3)
+    key = object()
+    assert _undispatch_native_partial_output(output, key) is output
+    assert calls == [(output, key, True)]
 
 
 def test_dsa_adapter_replaces_only_core_module_class() -> None:

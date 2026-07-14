@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "case_name": "e2e_dense_thd_cp1_attention_to_loss_native",
+  "architecture": "attention",
+  "layer_recipe": {
+    "pattern": [
+      "mla"
+    ],
+    "repeats": 1
+  },
+  "attention_mode": "dense_mla",
+  "attention_representation": "expanded_qkv",
+  "model": {
+    "hidden_size": 512,
+    "num_attention_heads": 4,
+    "num_query_groups": 4,
+    "q_lora_rank": 128,
+    "kv_lora_rank": 128,
+    "qk_nope_head_dim": 128,
+    "qk_pos_emb_head_dim": 64,
+    "v_head_dim": 128,
+    "vocab_size": 1024
+  },
+  "dsa": {
+    "topk": 0
+  },
+  "sequence": {
+    "layout": "thd",
+    "logical_lengths": [
+      256,
+      128,
+      64,
+      64
+    ],
+    "padded_lengths": [
+      256,
+      128,
+      64,
+      64
+    ]
+  },
+  "parallel": {
+    "tp": 1,
+    "cp": 1,
+    "pp": 1,
+    "dp": 1
+  },
+  "backend": {
+    "name": "megatron_native",
+    "layout_policy": "native_per_document",
+    "cp_comm_type": "p2p",
+    "capabilities": [
+      "expanded_qkv",
+      "dense",
+      "bfloat16",
+      "local_lm_loss",
+      "asymmetric_qk_v_dims",
+      "context_parallel",
+      "packed_varlen"
+    ]
+  },
+  "harness_mode": "attention_to_loss",
+  "dtype": "bfloat16",
+  "seed": 1234,
+  "warmup": 2,
+  "iterations": 5,
+  "correctness": {
+    "output_atol": 0.001,
+    "output_rtol": 0.001,
+    "grad_atol": 0.002,
+    "grad_rtol": 0.002
+  },
+  "loss_policy": "local_lm_loss",
+  "claim_scope": "Paired one-layer-training E2E from batch generation through dispatch, forward, loss, backward, and gradient zeroing; adapter=native",
+  "expected_capabilities": [
+    "expanded_qkv",
+    "dense",
+    "asymmetric_qk_v_dims",
+    "context_parallel",
+    "packed_varlen"
+  ]
+}
