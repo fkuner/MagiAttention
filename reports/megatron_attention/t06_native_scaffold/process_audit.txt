@@ -1,0 +1,9 @@
+T06 final process audit
+=======================
+
+Remote host: aistudio-61480188-ssctl
+Project: /root/work/MagiAttention
+
+The final remote audit returned no matching torchrun, benchmark runner, pytest,
+nsys, or ncu process. `nvidia-smi --query-compute-apps` also returned no active
+compute process. No process required termination.

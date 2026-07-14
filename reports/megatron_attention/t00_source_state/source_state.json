@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-07-14T05:00:20+08:00",
+  "host_alias": "aistudio-61480188-ssctl",
+  "paths": {
+    "magi_local": "/Users/fankun/kernel/MagiAttention",
+    "magi_remote": "/root/work/MagiAttention",
+    "magi_pr331_remote_worktree": "/root/work/MagiAttention-pr331-preflight",
+    "megatron_local": "/Users/fankun/kernel/megatron",
+    "megatron_remote": "/root/work/megatron",
+    "megatron_remote_integration_worktree": "/root/work/megatron-longattention-integration",
+    "benchmark_python": "/root/work/MagiAttention/.venv/bin/python"
+  },
+  "magi": {
+    "local_branch": "magic",
+    "local_upstream": "origin/magic",
+    "local_head": "529fb0a4e273b3557a56d8afd60b74da46688095",
+    "remote_branch": "magic",
+    "remote_head": "529fb0a4e273b3557a56d8afd60b74da46688095",
+    "heads_match": true,
+    "active_dirty_paths_match": true,
+    "local_submodules": {
+      "magi_attention/csrc/cutlass": "81a43e6d92cdd8c20d22392f9579604ed5f710a1 (not initialized locally)",
+      "magi_attention/functional/flash-attention": "ee1d15159cda6f3f97bfab9e487da146a8254970 (not initialized locally)"
+    },
+    "remote_submodules": {
+      "magi_attention/csrc/cutlass": "81a43e6d92cdd8c20d22392f9579604ed5f710a1",
+      "magi_attention/functional/flash-attention": "ee1d15159cda6f3f97bfab9e487da146a8254970"
+    },
+    "pr331": {
+      "remote_worktree_head": "99f836e852990579363a366bf1276d828c3e53d4",
+      "worktree_state": "clean detached worktree",
+      "flash_attention_submodule": "43962bad5b45169b04130290cd62859f4b0c82e5",
+      "applied_to_active_magic": false
+    }
+  },
+  "megatron": {
+    "local_branch": "main",
+    "local_upstream": "origin/main",
+    "local_head": "779c5b748dbcf00ad9e36d539c576b404ab4abe9",
+    "local_state": "dirty documentation-only checkout",
+    "remote_branch": null,
+    "remote_head": "779c5b748dbcf00ad9e36d539c576b404ab4abe9",
+    "remote_state": "clean detached baseline checkout",
+    "heads_match": true,
+    "integration_worktree": {
+      "branch": "codex/longattention-integration",
+      "head": "779c5b748dbcf00ad9e36d539c576b404ab4abe9",
+      "state": "three uncommitted integration files preserved"
+    }
+  },
+  "remote_runtime": {
+    "python_version": "3.12.13",
+    "active_relevant_processes": [],
+    "gpu_driver_labels": [
+      "NVIDIA L20C",
+      "NVIDIA L20C",
+      "NVIDIA L20C",
+      "NVIDIA L20C"
+    ],
+    "user_confirmed_hardware": "4 x NVIDIA B200",
+    "observed_gpu_interconnect": "NV18 full mesh",
+    "hardware_label_warning": "The driver-reported model label is known to be incorrect; preserve both the raw label and the user-confirmed B200 identity. Runtime SM100 capability must remain the executable gate."
+  },
+  "sync": {
+    "mode": "two-way",
+    "watch_state": "running: unison_sync_1170741567",
+    "last_preview": "one local-to-remote design document update, zero reverse updates, zero skipped",
+    "last_once_result": "success; watch restarted after T00 artifacts were created",
+    "design_document_hash_after_sync": "ae9b4a9aece428f02bdde733215dba2def4805ecb73a4cec618937c79aa2584d"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "repeats": 2,
+  "timeout_seconds": 180,
+  "purpose": "T07 capability probe; not a headline performance matrix",
+  "required_groups": [
+    "dense_sbhd_cp1",
+    "dense_sbhd_cp2",
+    "dense_sbhd_cp4",
+    "dense_thd_cp1",
+    "dense_thd_cp2",
+    "dense_thd_cp4",
+    "dsa_sbhd_cp1",
+    "dsa_sbhd_cp2",
+    "dsa_sbhd_cp4"
+  ],
+  "cases": [
+    {
+      "case_id": "t07_probe_dense_sbhd_cp1_none",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp1_none.json",
+      "required": true,
+      "selection_group": "dense_sbhd_cp1"
+    },
+    {
+      "case_id": "t07_probe_dense_sbhd_cp2_p2p",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp2_p2p.json",
+      "required": false,
+      "selection_group": "dense_sbhd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dense_sbhd_cp2_all_gather",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp2_all_gather.json",
+      "required": false,
+      "selection_group": "dense_sbhd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dense_sbhd_cp2_a2a",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp2_a2a.json",
+      "required": false,
+      "selection_group": "dense_sbhd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dense_sbhd_cp2_hierarchical",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp2_hierarchical.json",
+      "required": false,
+      "selection_group": "dense_sbhd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dense_sbhd_cp4_p2p",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp4_p2p.json",
+      "required": false,
+      "selection_group": "dense_sbhd_cp4"
+    },
+    {
+      "case_id": "t07_probe_dense_sbhd_cp4_all_gather",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp4_all_gather.json",
+      "required": false,
+      "selection_group": "dense_sbhd_cp4"
+    },
+    {
+      "case_id": "t07_probe_dense_sbhd_cp4_a2a",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp4_a2a.json",
+      "required": false,
+      "selection_group": "dense_sbhd_cp4"
+    },
+    {
+      "case_id": "t07_probe_dense_sbhd_cp4_hierarchical",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_sbhd_cp4_hierarchical.json",
+      "required": false,
+      "selection_group": "dense_sbhd_cp4"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp1_none",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp1_none.json",
+      "required": true,
+      "selection_group": "dense_thd_cp1"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp2_p2p",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp2_p2p.json",
+      "required": false,
+      "selection_group": "dense_thd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp2_all_gather",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp2_all_gather.json",
+      "required": false,
+      "selection_group": "dense_thd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp2_a2a",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp2_a2a.json",
+      "required": false,
+      "selection_group": "dense_thd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp2_a2a+p2p",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp2_a2a+p2p.json",
+      "required": false,
+      "selection_group": "dense_thd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp4_p2p",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp4_p2p.json",
+      "required": false,
+      "selection_group": "dense_thd_cp4"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp4_all_gather",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp4_all_gather.json",
+      "required": false,
+      "selection_group": "dense_thd_cp4"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp4_a2a",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp4_a2a.json",
+      "required": false,
+      "selection_group": "dense_thd_cp4"
+    },
+    {
+      "case_id": "t07_probe_dense_thd_cp4_a2a+p2p",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dense_thd_cp4_a2a+p2p.json",
+      "required": false,
+      "selection_group": "dense_thd_cp4"
+    },
+    {
+      "case_id": "t07_probe_dsa_sbhd_cp1_none",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dsa_sbhd_cp1_none.json",
+      "required": true,
+      "selection_group": "dsa_sbhd_cp1"
+    },
+    {
+      "case_id": "t07_probe_dsa_sbhd_cp2_allgather",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dsa_sbhd_cp2_allgather.json",
+      "required": false,
+      "selection_group": "dsa_sbhd_cp2"
+    },
+    {
+      "case_id": "t07_probe_dsa_sbhd_cp4_allgather",
+      "config": "exps/megatron_attention/cases/t07_probe/t07_probe_dsa_sbhd_cp4_allgather.json",
+      "required": false,
+      "selection_group": "dsa_sbhd_cp4"
+    }
+  ]
+}

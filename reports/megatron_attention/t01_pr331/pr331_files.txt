@@ -1,0 +1,17 @@
+.gitmodules
+magi_attention/api/magi_attn_interface.py
+magi_attention/dist_attn_runtime_mgr.py
+magi_attention/functional/dist_attn.py
+magi_attention/functional/fa4.py
+magi_attention/functional/fa4_utils.py
+magi_attention/functional/flash-attention
+magi_attention/functional/flex_flash_attn.py
+magi_attention/functional/utils.py
+magi_attention/meta/_make_attn_meta.py
+magi_attention/meta/collection/calc_meta.py
+magi_attention/meta/collection/comm_meta.py
+magi_attention/meta/solver/dist_attn_solver.py
+magi_attention/meta/solver/dynamic_attn_solver.py
+magi_attention/testing/ref_attn.py
+scripts/install_flash_attn_cute.sh
+tests/test_pipeline.py

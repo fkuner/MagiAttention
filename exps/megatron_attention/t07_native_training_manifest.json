@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "repeats": 2,
+  "timeout_seconds": 240,
+  "purpose": "T07 one-layer-training Native capability probe using the fastest correct modes selected by the attention-stack probe",
+  "required_groups": [
+    "training_dense_sbhd_cp1",
+    "training_dense_sbhd_cp2",
+    "training_dense_sbhd_cp4",
+    "training_dense_thd_cp1",
+    "training_dense_thd_cp2",
+    "training_dense_thd_cp4",
+    "training_dsa_sbhd_cp1",
+    "training_dsa_sbhd_cp2",
+    "training_dsa_sbhd_cp4"
+  ],
+  "cases": [
+    {
+      "case_id": "t07_training_dense_sbhd_cp1_none",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dense_sbhd_cp1_none.json",
+      "required": true,
+      "selection_group": "training_dense_sbhd_cp1"
+    },
+    {
+      "case_id": "t07_training_dense_sbhd_cp2_p2p",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dense_sbhd_cp2_p2p.json",
+      "required": true,
+      "selection_group": "training_dense_sbhd_cp2"
+    },
+    {
+      "case_id": "t07_training_dense_sbhd_cp4_all_gather",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dense_sbhd_cp4_all_gather.json",
+      "required": true,
+      "selection_group": "training_dense_sbhd_cp4"
+    },
+    {
+      "case_id": "t07_training_dense_thd_cp1_none",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dense_thd_cp1_none.json",
+      "required": true,
+      "selection_group": "training_dense_thd_cp1"
+    },
+    {
+      "case_id": "t07_training_dense_thd_cp2_p2p",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dense_thd_cp2_p2p.json",
+      "required": true,
+      "selection_group": "training_dense_thd_cp2"
+    },
+    {
+      "case_id": "t07_training_dense_thd_cp4_p2p",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dense_thd_cp4_p2p.json",
+      "required": true,
+      "selection_group": "training_dense_thd_cp4"
+    },
+    {
+      "case_id": "t07_training_dsa_sbhd_cp1_none",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dsa_sbhd_cp1_none.json",
+      "required": true,
+      "selection_group": "training_dsa_sbhd_cp1"
+    },
+    {
+      "case_id": "t07_training_dsa_sbhd_cp2_allgather",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dsa_sbhd_cp2_allgather.json",
+      "required": true,
+      "selection_group": "training_dsa_sbhd_cp2"
+    },
+    {
+      "case_id": "t07_training_dsa_sbhd_cp4_allgather",
+      "config": "exps/megatron_attention/cases/t07_training/t07_training_dsa_sbhd_cp4_allgather.json",
+      "required": true,
+      "selection_group": "training_dsa_sbhd_cp4"
+    }
+  ]
+}

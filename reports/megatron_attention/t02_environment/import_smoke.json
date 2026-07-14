@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "python": "/root/work/MagiAttention/.venv/bin/python",
+  "imports": {
+    "magi_attention": "/root/work/MagiAttention-pr331-preflight/magi_attention/__init__.py",
+    "magi_attention.functional.fa4": "/root/work/MagiAttention-pr331-preflight/magi_attention/functional/fa4.py",
+    "magi_attention.magi_attn_comm.grpcoll": "/root/work/MagiAttention-pr331-preflight/magi_attention/magi_attn_comm.cpython-312-x86_64-linux-gnu.so",
+    "transformer_engine.pytorch": "/root/work/MagiAttention/.venv/lib/python3.12/site-packages/transformer_engine/pytorch/__init__.py",
+    "megatron.core": "/root/work/megatron/megatron/core/__init__.py",
+    "cutlass": "/root/work/MagiAttention/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/__init__.py",
+    "cutlass.cute": "/root/work/MagiAttention/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/__init__.py"
+  },
+  "bf16_matmul": {
+    "ok": true,
+    "shape": [1024, 1024],
+    "dtype": "torch.bfloat16",
+    "note": "First-use wall time is intentionally not treated as a performance result."
+  },
+  "nccl": {
+    "cp2": {
+      "all_reduce": 3.0,
+      "all_gather": [0, 1],
+      "ok": true
+    },
+    "cp4": {
+      "all_reduce": 10.0,
+      "all_gather": [0, 1, 2, 3],
+      "ok": true
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "captures": [
+    {
+      "artifacts": {
+        "dense_sbhd_cp4_all_gather.json": 18868,
+        "dense_sbhd_cp4_all_gather.nsys-rep": 5938468,
+        "dense_sbhd_cp4_all_gather.stats_cuda_gpu_kern_sum.csv": 12544,
+        "dense_sbhd_cp4_all_gather.stats_nvtx_gpu_proj_sum.csv": 1291,
+        "dense_sbhd_cp4_all_gather.status": 2
+      },
+      "backward_range_instances": 12,
+      "case_name": "t07_probe_dense_sbhd_cp4_all_gather",
+      "exit_code": 0,
+      "expected_measured_range_instances": 12,
+      "forward_range_instances": 12,
+      "prefix": "dense_sbhd_cp4_all_gather",
+      "profiled_headline_cv": 1.2399879129761495,
+      "profiled_headline_median_ms": 7.363002,
+      "status": "pass",
+      "top_kernels": [
+        {
+          "instances": 48,
+          "max_ns": 145240292,
+          "median_ns": 68975.5,
+          "name": "ncclDevKernel_AllGather_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)",
+          "time_percent": 89.2,
+          "total_time_ns": 160476234
+        },
+        {
+          "instances": 72,
+          "max_ns": 1276284,
+          "median_ns": 29007.5,
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)",
+          "time_percent": 5.1,
+          "total_time_ns": 9083741
+        },
+        {
+          "instances": 24,
+          "max_ns": 841662,
+          "median_ns": 68192.0,
+          "name": "ncclDevKernel_ReduceScatter_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)",
+          "time_percent": 3.2,
+          "total_time_ns": 5679305
+        },
+        {
+          "instances": 72,
+          "max_ns": 6016,
+          "median_ns": 5696.0,
+          "name": "void at::native::<unnamed>::indexSelectSmallIndex<c10::BFloat16, int, unsigned int, (int)2, (int)2, (int)-2>(at::cuda::detail::TensorInfo<T1, T3>, at::cuda::detail::TensorInfo<const T1, T3>, at::cuda::detail::TensorInfo<const T2, T3>, int, int, T3, long)",
+          "time_percent": 0.2,
+          "total_time_ns": 405149
+        },
+        {
+          "instances": 24,
+          "max_ns": 26784,
+          "median_ns": 16016.0,
+          "name": "cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_3_64x64x256_4x1x1_kernel0_0",
+          "time_percent": 0.2,
+          "total_time_ns": 376638
+        }
+      ]
+    },
+    {
+      "artifacts": {
+        "dense_thd_cp4_p2p.json": 18283,
+        "dense_thd_cp4_p2p.nsys-rep": 5044225,
+        "dense_thd_cp4_p2p.stats_cuda_gpu_kern_sum.csv": 20276,
+        "dense_thd_cp4_p2p.stats_nvtx_gpu_proj_sum.csv": 1606,
+        "dense_thd_cp4_p2p.status": 2
+      },
+      "backward_range_instances": 12,
+      "case_name": "t07_probe_dense_thd_cp4_p2p",
+      "exit_code": 0,
+      "expected_measured_range_instances": 12,
+      "forward_range_instances": 12,
+      "prefix": "dense_thd_cp4_p2p",
+      "profiled_headline_cv": 0.1865157182404605,
+      "profiled_headline_median_ms": 21.611413,
+      "status": "pass",
+      "top_kernels": [
+        {
+          "instances": 168,
+          "max_ns": 7937431,
+          "median_ns": 12128.0,
+          "name": "ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<(unsigned long)4096>)",
+          "time_percent": 71.3,
+          "total_time_ns": 55916543
+        },
+        {
+          "instances": 72,
+          "max_ns": 2043802,
+          "median_ns": 33311.0,
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)",
+          "time_percent": 16.0,
+          "total_time_ns": 12587536
+        },
+        {
+          "instances": 450,
+          "max_ns": 2048,
+          "median_ns": 1760.0,
+          "name": "void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char *, (unsigned long)3>>(int, T2, T3)",
+          "time_percent": 1.0,
+          "total_time_ns": 767326
+        },
+        {
+          "instances": 276,
+          "max_ns": 3296,
+          "median_ns": 2528.0,
+          "name": "void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 12)]::operator ()() const::[lambda(c10::BFloat16) (instance 1)]>(at::TensorIteratorBase &, const T1 &)::[lambda(int) (instance 1)]>(int, T3)",
+          "time_percent": 0.9,
+          "total_time_ns": 708763
+        },
+        {
+          "instances": 288,
+          "max_ns": 2880,
+          "median_ns": 2336.0,
+          "name": "void at::native::<unnamed>::CatArrayBatchedCopy<at::native::<unnamed>::OpaqueType<(unsigned int)2>, unsigned int, (int)4, (int)64, (int)64>(T1 *, at::native::<unnamed>::CatArrInputTensorMetadata<T1, T2, T4, T5>, at::native::<unnamed>::TensorSizeStride<T2, (unsigned int)4>, int, T2)",
+          "time_percent": 0.9,
+          "total_time_ns": 677310
+        }
+      ]
+    },
+    {
+      "artifacts": {
+        "dsa_sbhd_cp4_allgather.json": 19948,
+        "dsa_sbhd_cp4_allgather.nsys-rep": 1371668,
+        "dsa_sbhd_cp4_allgather.stats_cuda_gpu_kern_sum.csv": 27881,
+        "dsa_sbhd_cp4_allgather.stats_nvtx_gpu_proj_sum.csv": 1364,
+        "dsa_sbhd_cp4_allgather.status": 2
+      },
+      "backward_range_instances": 12,
+      "case_name": "t07_probe_dsa_sbhd_cp4_allgather",
+      "exit_code": 0,
+      "expected_measured_range_instances": 12,
+      "forward_range_instances": 12,
+      "prefix": "dsa_sbhd_cp4_allgather",
+      "profiled_headline_cv": 0.2671439698214256,
+      "profiled_headline_median_ms": 24.680485,
+      "status": "pass",
+      "top_kernels": [
+        {
+          "instances": 24,
+          "max_ns": 10886232,
+          "median_ns": 853179.5,
+          "name": "ncclDevKernel_ReduceScatter_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)",
+          "time_percent": 51.7,
+          "total_time_ns": 36251922
+        },
+        {
+          "instances": 156,
+          "max_ns": 1322171,
+          "median_ns": 30128.0,
+          "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)",
+          "time_percent": 20.6,
+          "total_time_ns": 14449384
+        },
+        {
+          "instances": 36,
+          "max_ns": 386623,
+          "median_ns": 127455.5,
+          "name": "ncclDevKernel_AllGather_RING_LL(ncclDevKernelArgsStorage<(unsigned long)4096>)",
+          "time_percent": 7.3,
+          "total_time_ns": 5089677
+        },
+        {
+          "instances": 204,
+          "max_ns": 4064,
+          "median_ns": 3296.0,
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase &)::[lambda() (instance 3)]::operator ()() const::[lambda() (instance 7)]::operator ()() const::[lambda(float) (instance 1)], std::array<char *, (unsigned long)2>, (int)4, TrivialOffsetCalculator<(int)1, unsigned int>, TrivialOffsetCalculator<(int)1, unsigned int>, at::native::memory::LoadWithCast<(int)1>, at::native::memory::StoreWithCast<(int)1>>(int, T1, T2, T4, T5, T6, T7)",
+          "time_percent": 0.9,
+          "total_time_ns": 661692
+        },
+        {
+          "instances": 144,
+          "max_ns": 10208,
+          "median_ns": 3712.0,
+          "name": "void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator ()(at::TensorIterator &)::[lambda(float, float) (instance 1)]>, unsigned int, float, (int)4, (int)4>>(T3)",
+          "time_percent": 0.8,
+          "total_time_ns": 590202
+        }
+      ]
+    }
+  ],
+  "claim_scope": "T07 diagnostic nsys captures; profiler-perturbed timings are not headline results",
+  "schema_version": 1,
+  "status": "pass"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "base": "529fb0a4e273b3557a56d8afd60b74da46688095",
+  "pr_head": "99f836e852990579363a366bf1276d828c3e53d4",
+  "active_dirty_paths": [
+    ".unisonignore",
+    "docs/design/magi_megatron_hybrid_mla_dsa_plan.md",
+    "magi_attention/kernel/cutedsl/tile_scheduler.py",
+    "reports/megatron_attention/t00_source_state/dirty_file_hashes.json",
+    "reports/megatron_attention/t00_source_state/remote_state.log",
+    "reports/megatron_attention/t00_source_state/source_state.json",
+    "tests/test_attn/test_block_sparse_attn.py",
+    "tests/test_attn/test_flex_flash_attn.py",
+    "tests/test_attn/test_ref_attn.py"
+  ],
+  "pr_changed_paths_file": "pr331_files.txt",
+  "intersection": [],
+  "safe_to_replay_without_overwriting_active_dirty_paths": true,
+  "submodule_change": {
+    "path": "magi_attention/functional/flash-attention",
+    "base": "ee1d15159cda6f3f97bfab9e487da146a8254970",
+    "pr_head": "43962bad5b45169b04130290cd62859f4b0c82e5",
+    "sync_policy": "excluded from Unison; managed only inside the isolated PR worktree until merge approval"
+  }
+}

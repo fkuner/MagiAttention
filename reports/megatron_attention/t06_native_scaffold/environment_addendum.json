@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "python": "/root/work/MagiAttention/.venv/bin/python",
+  "packages": {
+    "torch": "2.9.1+cu130",
+    "transformer_engine": "2.16.0",
+    "transformer_engine_torch": "2.16.0",
+    "nvidia-cublas": "13.2.2.2",
+    "nvidia-cudnn-frontend": "1.25.0",
+    "flash-attn-4": "4.0.0b11",
+    "flash-linear-attention": "0.4.2",
+    "fla-core": "0.4.2"
+  },
+  "capability_findings": {
+    "transformer_engine_detects_official_fa4": true,
+    "transformer_engine_fa4_supports_context_parallel": false,
+    "transformer_engine_thd_cp_all_gather_supported_for_dense_mla_case": false,
+    "selected_dense_packed_cp_mode": "p2p",
+    "dsa_indexer_rotate_activation": false
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "case_name": "t07_probe_dsa_sbhd_cp4_allgather",
+  "architecture": "attention",
+  "layer_recipe": {
+    "pattern": [
+      "mla"
+    ],
+    "repeats": 1
+  },
+  "attention_mode": "mla_dsa",
+  "attention_representation": "absorbed_latent",
+  "model": {
+    "hidden_size": 512,
+    "num_attention_heads": 4,
+    "num_query_groups": 4,
+    "q_lora_rank": 128,
+    "kv_lora_rank": 128,
+    "qk_nope_head_dim": 128,
+    "qk_pos_emb_head_dim": 64,
+    "v_head_dim": 128,
+    "vocab_size": 4096
+  },
+  "dsa": {
+    "topk": 32,
+    "scoring_semantics_id": "megatron_dsa_v1",
+    "tie_break": "score_then_global_token_id",
+    "score_dtype": "float32",
+    "document_local": true
+  },
+  "sequence": {
+    "layout": "sbhd",
+    "logical_lengths": [
+      512
+    ],
+    "padded_lengths": [
+      512
+    ]
+  },
+  "parallel": {
+    "tp": 1,
+    "cp": 4,
+    "pp": 1,
+    "dp": 1
+  },
+  "backend": {
+    "name": "megatron_native",
+    "layout_policy": "native_zigzag",
+    "cp_comm_type": "allgather",
+    "capabilities": [
+      "absorbed_latent",
+      "exact_topk",
+      "bfloat16",
+      "fixed_gradient",
+      "asymmetric_qk_v_dims",
+      "context_parallel"
+    ]
+  },
+  "harness_mode": "attention_stack",
+  "dtype": "bfloat16",
+  "seed": 1234,
+  "warmup": 1,
+  "iterations": 3,
+  "correctness": {
+    "output_atol": 0.001,
+    "output_rtol": 0.001,
+    "grad_atol": 0.002,
+    "grad_rtol": 0.002
+  },
+  "loss_policy": "fixed_gradient",
+  "claim_scope": "T07 native capability probe; timing is not a headline result"
+}

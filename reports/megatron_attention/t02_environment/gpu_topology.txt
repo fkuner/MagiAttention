@@ -1,0 +1,27 @@
+GPU identity provenance
+=======================
+Driver-reported name: NVIDIA L20C
+User-confirmed model: B200
+Runtime compute capability: 10.0 (SM100)
+GPU count: 4
+Memory per GPU: 191503138816 bytes
+SM count per GPU: 148
+
+nvidia-smi topo -m
+==================
+	GPU0	GPU1	GPU2	GPU3
+GPU0	X	NV18	NV18	NV18
+GPU1	NV18	X	NV18	NV18
+GPU2	NV18	NV18	X	NV18
+GPU3	NV18	NV18	NV18	X
+
+CPU/NUMA affinity
+=================
+GPU0: CPU 0-71,144-215; NUMA 0
+GPU1: CPU 72-143,216-287; NUMA 1
+GPU2: CPU 72-143,216-287; NUMA 1
+GPU3: CPU 72-143,216-287; NUMA 1
+
+The full remote topology also reported eight mlx5_bond NICs. GPU-to-GPU links
+are the relevant single-node benchmark topology and are retained above without
+interpreting the incorrect driver model string.

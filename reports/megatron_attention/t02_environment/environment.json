@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "ok": true,
+  "python": {
+    "executable": "/root/work/MagiAttention/.venv/bin/python",
+    "version": "3.12.13",
+    "prefix": "/root/work/MagiAttention/.venv"
+  },
+  "source_roots": {
+    "magi_attention": "/root/work/MagiAttention-pr331-preflight",
+    "magi_attention_commit": "99f836e852990579363a366bf1276d828c3e53d4",
+    "megatron": "/root/work/megatron",
+    "megatron_commit": "779c5b748dbcf00ad9e36d539c576b404ab4abe9"
+  },
+  "packages": {
+    "torch": "2.9.1+cu130",
+    "cuda": "13.0",
+    "cudnn": 91300,
+    "nccl": "2.27.7",
+    "transformer_engine": "2.16.0",
+    "transformer_engine_torch": "2.16.0",
+    "nvidia_cutlass_dsl": "4.4.2",
+    "nvidia_cudnn_frontend": "1.25.0",
+    "nvidia_cublas": "13.2.2.2"
+  },
+  "gpu_identity": {
+    "count": 4,
+    "driver_reported_name": "NVIDIA L20C",
+    "user_confirmed_model": "B200",
+    "runtime_architecture": "SM100",
+    "compute_capability": [10, 0],
+    "multi_processor_count_per_gpu": 148,
+    "total_memory_bytes_per_gpu": 191503138816,
+    "note": "The raw driver label is preserved. B200 is the user's explicit correction; SM100 is independently supported by runtime compute capability 10.0."
+  },
+  "smoke": {
+    "source_checkout_verified": true,
+    "bf16_matmul": true,
+    "nccl_cp2": true,
+    "nccl_cp4": true,
+    "fa4_192_128_cp1_forward_backward": true,
+    "fa4_192_128_cp4_forward_backward": true
+  }
+}

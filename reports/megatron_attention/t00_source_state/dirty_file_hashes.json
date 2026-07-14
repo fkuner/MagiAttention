@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "algorithm": "sha256",
+  "magi_active_checkout": [
+    {
+      "path": "magi_attention/kernel/cutedsl/tile_scheduler.py",
+      "local": "1a9079ff5061f2cbb5f8f0ee8b0fb326d23c71415f6a58819156577ac656fa36",
+      "remote": "1a9079ff5061f2cbb5f8f0ee8b0fb326d23c71415f6a58819156577ac656fa36"
+    },
+    {
+      "path": "tests/test_attn/test_block_sparse_attn.py",
+      "local": "157da8d8377d59b219b455ac6b26dc266a179a7d87c6a947489da94a61070cfc",
+      "remote": "157da8d8377d59b219b455ac6b26dc266a179a7d87c6a947489da94a61070cfc"
+    },
+    {
+      "path": "tests/test_attn/test_flex_flash_attn.py",
+      "local": "6e69638f694078a2ee0adcd5db5b14bd74d8765b1146605b113e30476c687b74",
+      "remote": "6e69638f694078a2ee0adcd5db5b14bd74d8765b1146605b113e30476c687b74"
+    },
+    {
+      "path": "tests/test_attn/test_ref_attn.py",
+      "local": "d836f90787a397609ffdbe0373a226a5b58204a10a35ec4affa0180221bb4dba",
+      "remote": "d836f90787a397609ffdbe0373a226a5b58204a10a35ec4affa0180221bb4dba"
+    },
+    {
+      "path": ".unisonignore",
+      "local": "27af664394742d2a8abf9d9b8db68c0e6402af9e290941506cb2eec3094006de",
+      "remote": "27af664394742d2a8abf9d9b8db68c0e6402af9e290941506cb2eec3094006de"
+    },
+    {
+      "path": "docs/design/magi_megatron_hybrid_mla_dsa_plan.md",
+      "local": "ae9b4a9aece428f02bdde733215dba2def4805ecb73a4cec618937c79aa2584d",
+      "remote": "ae9b4a9aece428f02bdde733215dba2def4805ecb73a4cec618937c79aa2584d"
+    }
+  ],
+  "megatron_local_checkout": [
+    {
+      "path": ".codex/hooks.json",
+      "hash": "0c7a265cf1e925b69a5384eafb2b4da10e5a8ea95a2c5b34bf536a3c4abf5b99"
+    },
+    {
+      "path": "docs/discussions/README.md",
+      "hash": "e8dabc2bf1511928dadf98f9a357b30cb6439c04b64d6d07973c1b804a21defa"
+    },
+    {
+      "path": "docs/discussions/magi-attention-integration/magi-attention-integration.md",
+      "hash": "70518aa5bc9a2a5afac22ecefac650d069cc4a44f00b8bc06c9c54e504fd07c6"
+    }
+  ],
+  "megatron_remote_integration_worktree": [
+    {
+      "path": "megatron/core/transformer/experimental_attention_variant/dsa.py",
+      "hash": "0b1bdf68624a503ad04d2cd41b2133973483eb4fcf987c92a10ccec7618846d9"
+    },
+    {
+      "path": "megatron/core/transformer/experimental_attention_variant/attention_cp_backend.py",
+      "hash": "811d61fc248123fb956d865fa609389aee4e805abda977f1690bb93bb403cbfc"
+    },
+    {
+      "path": "tests/unit_tests/transformer/experimental_attention_variant/test_dsa_cp_backend_spec.py",
+      "hash": "9729f7e47c282884cc2b6fd72d6b3c5dd1b393586bbb69a50d5795b6981baf58"
+    }
+  ]
+}

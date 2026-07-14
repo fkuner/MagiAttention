@@ -1,0 +1,11 @@
+# Keep dependency submodules and remote build outputs out of file sync.
+Path .venv
+Path magi_attention/csrc/cutlass
+Path magi_attention/functional/flash-attention
+Path magi_attention/csrc/extensions/build
+Path magi_attention/csrc/comm/grpcoll/instantiations
+Path magi_attention/lib
+Name *.so
+Name *.o
+Name *.d
+Name *.a

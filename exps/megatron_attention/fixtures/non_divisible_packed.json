@@ -1,0 +1,5 @@
+{
+  "layout": "thd",
+  "logical_lengths": [13, 9, 20, 14],
+  "padded_lengths": [16, 12, 20, 16]
+}
