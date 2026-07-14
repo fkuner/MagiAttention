@@ -225,6 +225,7 @@ class MegatronNativeAdapter(BaseBenchmarkAdapter):
         dense_submodules = get_gpt_layer_with_transformer_engine_submodules(
             multi_latent_attention=True
         ).self_attention.submodules
+        dense_submodules = self.customize_dense_submodules(dense_submodules, case)
         dense_spec = ModuleSpec(
             module=MLASelfAttention,
             params={"attn_mask_type": AttnMaskType.causal},
@@ -297,6 +298,10 @@ class MegatronNativeAdapter(BaseBenchmarkAdapter):
             bundle.load_state_dict(shared_state, strict=True)
         self._active_modules = bundle
         return bundle
+
+    def customize_dense_submodules(self, dense_submodules, case):
+        """Backend hook preserving the exact Megatron MLA module construction."""
+        return dense_submodules
 
     @staticmethod
     def clone_shared_state(modules) -> dict[str, Any]:
@@ -545,7 +550,6 @@ class MegatronNativeAdapter(BaseBenchmarkAdapter):
 
     def capture_golden(self, modules, prepared_batch, case):
         """Capture layout-invariant correctness artifacts outside the timed path."""
-        import torch
         import torch.distributed as dist
 
         self.zero_grad(modules, case)

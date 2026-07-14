@@ -25,7 +25,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--output", type=Path)
     parser.add_argument(
         "--adapter",
-        choices=("native",),
+        choices=("native", "magi"),
         help="Concrete execution adapter. Required unless --dry-run is used.",
     )
     return parser
@@ -270,11 +270,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise SystemExit("--adapter is required for execution")
     if args.output is None:
         raise SystemExit("--output is required for execution")
+    from .adapters.magi import MagiExpandedMLAAdapter
     from .adapters.native import MegatronNativeAdapter
+
+    adapter = MegatronNativeAdapter() if args.adapter == "native" else MagiExpandedMLAAdapter()
 
     runner = BenchmarkRunner(
         case,
-        MegatronNativeAdapter(),
+        adapter,
         output_path=args.output,
         repo_root=Path(__file__).resolve().parents[2],
     )
